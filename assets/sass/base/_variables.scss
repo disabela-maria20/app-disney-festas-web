@@ -1,0 +1,28 @@
+// Cores 
+$primary-color: #f26b40;
+$secondary-color: #fd22aa;
+$tertiary-color:  #2f96ff;
+$quarternary-color: #eb3266;
+
+$primary-light-color: #ffffff;
+$secondary-light-color: #F6F6F6;
+
+$primary-gray-color: #969696;
+$secondary-gray-color: #525252;
+$tertiary-gray-color: #2B2B2B;
+
+$primary-dark-color: #111111;
+$secondary-dark-color: #151515;
+$tertiary-dark-color: #1B1B1B;
+
+// Gradient 
+$bg-color-gradient: 90deg, $primary-color 0%, $secondary-color 34%, $tertiary-color 100%;
+$btn-gradient-color: $primary-color 0%, $secondary-color 100%;
+
+// Box shadow
+$color-box-shadow: 0px 2px 6px 0px #969696;
+
+// Fonts 
+$font-primary: 'InspireTWDC', sans-serif;
+$font-secondary: 'Lato', sans-serif;
+

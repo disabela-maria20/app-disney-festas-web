@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "outDir": "./assets/scripts/js",
+    "rootDir": "./assets/scripts/ts",
+    "removeComments": true,
+    "sourceMap": false,
+    "module": "ES6",
+    "incremental": true, 
+    
+  },
+  "include": ["assets/**/*.ts"]
+
+}

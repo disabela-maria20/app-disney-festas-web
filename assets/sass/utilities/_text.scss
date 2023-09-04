@@ -1,0 +1,41 @@
+@mixin FontSize($size) {
+  @if $size == 13 {
+    font-size: 13px;
+    line-height: 20px;
+  }
+  @if $size == 14 {
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  @if $size == 16 {
+    font-size: 16px;
+  }
+
+  @if $size == 18 {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  
+  @else if $size == 21 {
+    font-size: 21px;
+    line-height: 31px
+  }
+  
+  @else if $size == 25 {
+    font-size: 25px;
+    line-height: 35px
+  }
+
+  @else if $size == 38 {
+    font-size: 38px;
+  }
+
+  @else if $size == 48 {
+    font-size: 48px;
+  }
+
+  @else if $size == 58 {
+    font-size: 58px;
+  }
+}
