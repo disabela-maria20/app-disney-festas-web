@@ -52,9 +52,6 @@ export function Menu() {
                         throw new Error("Erro na solicita\u00E7\u00E3o: ".concat(res.status));
                     }
                     else {
-                        console.log('====================================');
-                        console.log(data);
-                        console.log('====================================');
                         viewMenu(data);
                     }
                     return [3, 4];
@@ -69,13 +66,8 @@ export function Menu() {
     getMenu();
     var viewMenu = function (data) {
         var menu = document.querySelector("#area_menu");
-        var links = data[0].item;
-        for (var _i = 0, links_1 = links; _i < links_1.length; _i++) {
-            var link = links_1[_i];
-            console.log('====================================');
-            console.log(link);
-            console.log('====================================');
-        }
-        menu.innerHTML += "\n    ";
+        var link = data[0].logo;
+        var items = data[0].item;
+        menu.innerHTML += "\n      <div class=\"area_logo\">\n        <img src=\"".concat(link, "\" alt=\"logo\"/>\n        <div>\n          <span></span>\n          <span></span>\n          <span></span>\n        </div>\n      </div>\n      <nav>\n        <ul>\n          ").concat(items.map(function (item) { return "\n            <li>\n              <a href=\"".concat(item.link, "\">").concat(item.nome, "</a>\n              ").concat(item.sub_item && item.sub_item.length > 0 ? "\n                <ul>\n                  ".concat(item.sub_item.map(function (subItem) { return "\n                    <li>\n                      <a href=\"".concat(subItem.sub_item_link, "\">").concat(subItem.sub_item_nome, "</a>\n                    </li>\n                  "); }).join(''), "\n                </ul>\n              ") : '', "\n            </li>\n          "); }).join(''), "\n        </ul>\n      </nav>\n    ");
     };
 }
