@@ -35,39 +35,63 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 export function Menu() {
-    var _this = this;
-    var getMenu = function () { return __awaiter(_this, void 0, void 0, function () {
-        var res, data, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    return [4, fetch('http://disney.local/wp-json/api/v1/menu')];
-                case 1:
-                    res = _a.sent();
-                    return [4, res.json()];
-                case 2:
-                    data = _a.sent();
-                    if (!res.ok) {
-                        throw new Error("Erro na solicita\u00E7\u00E3o: ".concat(res.status));
-                    }
-                    else {
-                        viewMenu(data);
-                    }
-                    return [3, 4];
-                case 3:
-                    error_1 = _a.sent();
-                    console.error("Erro ao buscar a imagem: ".concat(error_1.message));
-                    return [3, 4];
-                case 4: return [2];
-            }
+    function fetchMenuData() {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, fetch('https://disney.isabelamribeiro.com.br/wp-json/api/v1/menu')];
+                    case 1:
+                        res = _a.sent();
+                        if (!res.ok) {
+                            throw new Error("Erro na solicita\u00E7\u00E3o: ".concat(res.status));
+                        }
+                        return [2, res.json()];
+                }
+            });
         });
-    }); };
-    getMenu();
-    var viewMenu = function (data) {
+    }
+    function renderMenu(menuData) {
         var menu = document.querySelector("#area_menu");
-        var link = data[0].logo;
-        var items = data[0].item;
-        menu.innerHTML += "\n      <div class=\"area_logo\">\n        <img src=\"".concat(link, "\" alt=\"logo\"/>\n        <div>\n          <span></span>\n          <span></span>\n          <span></span>\n        </div>\n      </div>\n      <nav>\n        <ul>\n          ").concat(items.map(function (item) { return "\n            <li>\n              <a href=\"".concat(item.link, "\">").concat(item.nome, "</a>\n              ").concat(item.sub_item && item.sub_item.length > 0 ? "\n                <ul>\n                  ".concat(item.sub_item.map(function (subItem) { return "\n                    <li>\n                      <a href=\"".concat(subItem.sub_item_link, "\">").concat(subItem.sub_item_nome, "</a>\n                    </li>\n                  "); }).join(''), "\n                </ul>\n              ") : '', "\n            </li>\n          "); }).join(''), "\n        </ul>\n      </nav>\n    ");
-    };
+        var link = menuData[0].logo_path;
+        var items = menuData[0].item;
+        menu.innerHTML += "\n      <div class=\"area_logo\">\n        <img src=\"".concat(link, "\" alt=\"logo\"/>\n        <div class=\"menu-burger\">\n          <span></span>\n          <span></span>\n          <span></span>\n        </div>\n      </div>\n      <nav class=\"menu\">\n        <ul>\n          ").concat(items.map(renderMenuItem).join(''), "\n        </ul>\n      </nav>\n    ");
+        initializeMenu();
+    }
+    function renderMenuItem(item) {
+        return "\n      <li>\n        <a href=\"".concat(item.link, "\">").concat(item.nome, "</a>\n        ").concat(item.sub_item && item.sub_item.length > 0 ? "\n          <ul>\n            ".concat(item.sub_item.map(renderSubItem).join(''), "\n          </ul>\n        ") : '', "\n      </li>\n    ");
+    }
+    function renderSubItem(subItem) {
+        return "\n      <li>\n        <a href=\"".concat(subItem.sub_item_link, "\">").concat(subItem.sub_item_nome, "</a>\n      </li>\n    ");
+    }
+    function initializeMenu() {
+        document.querySelector(".menu-burger").addEventListener("click", function () {
+            document.querySelectorAll('.menu-burger span').forEach(function (item) {
+                item.classList.toggle('active');
+            });
+            document.querySelector('.menu').classList.toggle('active');
+        });
+    }
+    function Menus() {
+        return __awaiter(this, void 0, void 0, function () {
+            var menuData, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, fetchMenuData()];
+                    case 1:
+                        menuData = _a.sent();
+                        renderMenu(menuData);
+                        return [3, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        console.error("Erro ao buscar a imagem: ".concat(error_1.message));
+                        return [3, 3];
+                    case 3: return [2];
+                }
+            });
+        });
+    }
+    Menus();
 }

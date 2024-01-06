@@ -26,3 +26,13 @@ $color-box-shadow: 0px 2px 6px 0px #969696;
 $font-primary: 'InspireTWDC', sans-serif;
 $font-secondary: 'Lato', sans-serif;
 
+$font-title: "marvin", sans-serif;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);

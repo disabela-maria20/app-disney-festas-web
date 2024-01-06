@@ -1,72 +1,78 @@
-type SubItem = {
-  sub_item_nome: string;
-  sub_item_link: string;
-};
-
-type Item = {
-  nome: string;
-  link: string;
-  sub_item: SubItem[];
-};
-
-type MenuData = {
-  item: Item[];
-  logo: string;
-};
 
 export function Menu() {
-  const getMenu = async (): Promise<void> => {
-    try {
-      const res = await fetch('http://disney.local/wp-json/api/v1/menu');
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(`Erro na solicitação: ${res.status}`);
-      } else {
-        viewMenu(data);
-      }
-
-    } catch (error) {
-      console.error(`Erro ao buscar a imagem: ${error.message}`);
+  async function fetchMenuData(): Promise<MenuData> {
+    const res = await fetch('https://disney.isabelamribeiro.com.br/wp-json/api/v1/menu');
+    if (!res.ok) {
+      throw new Error(`Erro na solicitação: ${res.status}`);
     }
+    return res.json();
   }
 
-  getMenu();
-
-  const viewMenu = (data: MenuData): void => {
+  function renderMenu(menuData: MenuData): void {
     const menu = document.querySelector("#area_menu");
-
-
-    const link = data[0].logo;
-    const items = data[0].item;
+    const link = menuData[0].logo_path;
+    const items = menuData[0].item;
 
     menu.innerHTML += `
       <div class="area_logo">
         <img src="${link}" alt="logo"/>
-        <div>
+        <div class="menu-burger">
           <span></span>
           <span></span>
           <span></span>
         </div>
       </div>
-      <nav>
+      <nav class="menu">
         <ul>
-          ${items.map((item: Item) => `
-            <li>
-              <a href="${item.link}">${item.nome}</a>
-              ${item.sub_item && item.sub_item.length > 0 ? `
-                <ul>
-                  ${item.sub_item.map((subItem: SubItem) => `
-                    <li>
-                      <a href="${subItem.sub_item_link}">${subItem.sub_item_nome}</a>
-                    </li>
-                  `).join('')}
-                </ul>
-              ` : ''}
-            </li>
-          `).join('')}
+          ${items.map(renderMenuItem).join('')}
         </ul>
       </nav>
     `;
-  };
+
+    initializeMenu();
+  }
+
+  function renderMenuItem(item: Item): string {
+    return `
+      <li>
+        <a href="${item.link}">${item.nome}</a>
+        ${item.sub_item && item.sub_item.length > 0 ? `
+          <ul>
+            ${item.sub_item.map(renderSubItem).join('')}
+          </ul>
+        ` : ''}
+      </li>
+    `;
+  }
+
+  function renderSubItem(subItem: SubItem): string {
+    return `
+      <li>
+        <a href="${subItem.sub_item_link}">${subItem.sub_item_nome}</a>
+      </li>
+    `;
+  }
+
+  function initializeMenu(): void {
+    document.querySelector(".menu-burger").addEventListener("click", () => {
+      document.querySelectorAll('.menu-burger span').forEach((item) => {
+        item.classList.toggle('active')
+      });
+      document.querySelector('.menu').classList.toggle('active');
+    })
+  
+  }
+
+  async function Menus() {
+    try {
+      const menuData = await fetchMenuData();
+      renderMenu(menuData);
+    } catch (error) {
+      console.error(`Erro ao buscar a imagem: ${error.message}`);
+    }
+  }
+
+  // Chamar a função Menus() para iniciar o processo
+  Menus();
+
 }
